@@ -11,8 +11,8 @@
   DTS:LocaleID="1046"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="24"
-  DTS:VersionGUID="{7DD96963-9124-4315-82D2-761F6DD12410}">
+  DTS:VersionBuild="25"
+  DTS:VersionGUID="{F00A95C2-141C-4958-A393-26E826C40BDC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -61,7 +61,7 @@
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="0"
           DTS:ConnectRetryInterval="0"
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\Arquivos - Aula 4\FUNCIONARIOS GRUPO 1.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\Arquivos - Aula 4\FUNCIONARIOS GRUPO 1.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -73,7 +73,7 @@
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="0"
           DTS:ConnectRetryInterval="0"
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\Arquivos - Aula 4\FUNCIONARIOS GRUPO 2.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\Arquivos - Aula 4\FUNCIONARIOS GRUPO 2.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -11963,6 +11963,1249 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execução da rotina de dir esquer e nivel"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarefa Executar SQL"
+      DTS:DTSID="{924DDE66-4DC6-4638-B9B5-0052A4627D26}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execução da rotina de dir esquer e nivel"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{690A4E8F-1C4C-495C-9EC3-EEB880C1CB22}"
+          SQLTask:SqlStatementSource="DROP TABLE TEMP_AUXCONTROLE;&#xA;CREATE TABLE TEMP_AUXCONTROLE (&#xA;                                ID NVARCHAR(50),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;CONTADOR INT,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;NIVEL int&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;);&#xA;&#xA;DROP TABLE TEMP_AUXTABELA;&#xA;CREATE TABLE TEMP_AUXTABELA (&#xA;                                ID NVARCHAR(50) ,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;IDPAI NVARCHAR(50) ,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ESQ int,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DIR int,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;NIVEL int,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;NOME CHAR(200)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;);&#xA;&#xA;UPDATE DIM_ORGANIZACIONAL SET Esquerda = NULL, Direita = NULL;&#xA;&#xA;INSERT INTO TEMP_AUXTABELA&#xA;&#x9;SELECT&#xA;&#x9;&#x9;Cod_Filho as ID,&#xA;&#x9;&#x9;Cod_Pai as IDPAI,&#xA;&#x9;&#x9;Esquerda as ESQ,&#xA;&#x9;&#x9;Direita as DIR,&#xA;&#x9;&#x9;Nivel as NIVEL,&#xA;&#x9;&#x9;Desc_Filho as NOME&#xA;&#x9;&#x9;FROM Dim_Organizacional;&#xA;&#xA;DECLARE @v_ID NVARCHAR(50);&#xA;DECLARE @v_Contador INT;&#xA;DECLARE @v_Nivel INT;&#xA;DECLARE @v_Membros INT;&#xA;&#xA;DECLARE @v_Id2 NVARCHAR(50);&#xA;DECLARE @v_Contador2 INT;&#xA;DECLARE @v_Nivel2 INT;&#xA;&#xA;SET @v_Contador = 1;&#xA;SET @v_Nivel = 1;&#xA;SElECT @v_Membros = COUNT(*) FROM TEMP_AUXTABELA WHERE IDPAI IS NULL AND ESQ IS NULL&#xA;WHILE @v_Membros &gt; 0&#xA;BEGIN&#xA;      SELECT TOP 1 @v_Id = ID FROM TEMP_AUXTABELA WHERE IDPAI IS NULL AND ESQ IS NULL ORDER BY ID;&#xA;      INSERT INTO TEMP_AUXCONTROLE (ID, CONTADOR, NIVEL) VALUES (@v_ID, @v_Contador, @v_Nivel)&#xA;&#x9; &#xA;&#x9;  EXEC SP_MONTAESQDIR&#xA;&#x9; &#xA;&#x9;  SELECT @v_Contador = CONTADOR FROM TEMP_AUXCONTROLE;&#xA;      SElECT @v_Membros = COUNT(*) FROM TEMP_AUXTABELA WHERE IDPAI IS NULL AND ESQ IS NULL &#xA;&#x9;  SET @v_Contador = @v_Contador + 1;&#xA;&#x9;   &#xA;END;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transferencia do esq dir e nivel"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{9D9BB8D8-B118-42D2-920C-8F563D277267}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transferencia do esq dir e nivel"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\Comando OLE DB"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="Comando OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;2"
+              description="Executa uma instrução SQL para cada linha em um fluxo de dados. Por exemplo, chame um procedimento armazenado 'new employee setup' para cada linha da tabela 'new employees'. Observação: a execução de uma instrução SQL para cada linha de um fluxo de dados grande pode demorar."
+              name="Comando OLE DB"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [dbo].[Dim_Organizacional] SET [Cod_Pai] = ?,[Desc_Filho] = ?,[Direita] = ?,[Esquerda] = ?,[NIvel] = ? WHERE [Cod_Filho] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB]"
+                  errorOrTruncationOperation="Execução de Comando"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Comando OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Cod_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_5]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Cod_Pai]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Pai"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Desc_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Desc_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Direita]"
+                      cachedDataType="i4"
+                      cachedName="Direita"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_2]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Esquerda]"
+                      cachedDataType="i4"
+                      cachedName="Esquerda"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_3]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].Columns[Nivel]"
+                      cachedDataType="i4"
+                      cachedName="Nivel"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_4]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="200"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_3]"
+                      dataType="i4"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_4]"
+                      dataType="i4"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_5]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Comando OLE DB]"
+                  exclusionGroup="1"
+                  name="Saída de Comando OLE DB"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Erro de Comando OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Comando OLE DB"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="Comando OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;2"
+              description="Executa uma instrução SQL para cada linha em um fluxo de dados. Por exemplo, chame um procedimento armazenado 'new employee setup' para cada linha da tabela 'new employees'. Observação: a execução de uma instrução SQL para cada linha de um fluxo de dados grande pode demorar."
+              name="Comando OLE DB 1"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [dbo].[Dim_Organizacional] SET [Cod_Pai] = ?,[Desc_Filho] = ?,[Direita] = ?,[Esquerda] = ?,[NIvel] = ? WHERE [Cod_Filho] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB]"
+                  errorOrTruncationOperation="Execução de Comando"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Comando OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Cod_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_5]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Cod_Pai]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Pai"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Desc_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Desc_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Direita]"
+                      cachedDataType="i4"
+                      cachedName="Direita"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_2]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Esquerda]"
+                      cachedDataType="i4"
+                      cachedName="Esquerda"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_3]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].Columns[Nivel]"
+                      cachedDataType="i4"
+                      cachedName="Nivel"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_4]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="200"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_3]"
+                      dataType="i4"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_4]"
+                      dataType="i4"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB].ExternalColumns[Param_5]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Informações de parâmetro. Corresponde os valores de DBPARAMFLAGSENUM de OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Comando OLE DB]"
+                  exclusionGroup="1"
+                  name="Saída de Comando OLE DB"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Erro de Comando OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Comando OLE DB"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Outputs[Saída de Erro de Comando OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\Conversão de Dados"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Conversão de Dados;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;0"
+              description="Conversão de Dados"
+              name="Conversão de Dados"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados]"
+                  name="Entrada de Conversão de Dados">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[ID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ID"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ID]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[IDPAI]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="IDPAI"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[IDPAI]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[ESQ]"
+                      cachedDataType="i4"
+                      cachedName="ESQ"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ESQ]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[DIR]"
+                      cachedDataType="i4"
+                      cachedName="DIR"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[DIR]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[NIVEL]"
+                      cachedDataType="i4"
+                      cachedName="NIVEL"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NIVEL]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados].Columns[NOME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="200"
+                      cachedName="NOME"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NOME]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados]"
+                  exclusionGroup="1"
+                  name="Saída de Conversão de Dados"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]"
+                      name="Cod_Filho"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]"
+                      name="Cod_Pai"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[IDPAI]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]"
+                      name="Esquerda"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ESQ]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]"
+                      name="Direita"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[DIR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]"
+                      name="Nivel"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NIVEL]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      length="200"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]"
+                      name="Desc_Filho"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NOME]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Erro de Conversão de Dados]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Conversão de Dados"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta"
+              componentClassID="Microsoft.SCD"
+              contactInfo="Dimensão de Alteração Lenta;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;3"
+              description="Atualiza uma dimensão de data warehouse do SQL Server Analysis Services. Atualize registros da dimensão que já estejam presentes e insira os registros que não estão. Por exemplo, atualize a tabela DimProduct do banco de dados OLAP AdventureWorksDW com dados da tabela Products do banco de dados OLTP AdventureWorks."
+              name="Dimensão de Alteração Lenta"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Especifica a instrução SELECT usada para criar um conjunto de linhas de esquema."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT [Cod_Filho], [Cod_Pai], [Desc_Filho], [Direita], [Esquerda], [NIvel] FROM [dbo].[Dim_Organizacional]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a cláusula WHERE na instrução SELECT que seleciona a linha atual entre as linhas com chaves de negócios idênticas."
+                  name="CurrentRowWhere"></property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as atualizações de atributo de histórico são direcionadas para a saída de transformação para atualizações de atributo de alteração."
+                  name="UpdateChangingAttributeHistory">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se a transformação falhará quando as colunas com atributos fixos contiverem alterações."
+                  name="FailOnFixedAttributeChange">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome da coluna para o membro inferido."
+                  name="InferredMemberIndicator"></property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as atualizações de membro inferido são detectadas."
+                  name="EnableInferredMember">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se a transformação falhará quando uma pesquisa de registro existente falhar."
+                  name="FailOnLookupFailure">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica que todas as linhas na entrada são novas ou a transformação detecta o tipo de alteração."
+                  name="IncomingRowChangeType"
+                  typeConverter="IncomingRowChangeType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Connections[LookupConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  description="Define a conexão a ser usada para pesquisas na tabela de dimensão"
+                  name="LookupConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]"
+                  name="Entrada de Dimensão de Alteração Lenta">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Cod_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Cod_Filho]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Cod_Pai]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Pai"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Cod_Pai]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Desc_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Desc_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Desc_Filho]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Direita]"
+                      cachedDataType="i4"
+                      cachedName="Direita"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Direita]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Esquerda]"
+                      cachedDataType="i4"
+                      cachedName="Esquerda"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Esquerda]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].Columns[Nivel]"
+                      cachedDataType="i4"
+                      cachedName="Nivel"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[NIvel]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Cod_Filho]"
+                      dataType="wstr"
+                      length="50"
+                      name="Cod_Filho" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Cod_Pai]"
+                      dataType="wstr"
+                      length="50"
+                      name="Cod_Pai" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Desc_Filho]"
+                      dataType="wstr"
+                      length="200"
+                      name="Desc_Filho" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Direita]"
+                      dataType="i4"
+                      name="Direita" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[Esquerda]"
+                      dataType="i4"
+                      name="Esquerda" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta].ExternalColumns[NIvel]"
+                      dataType="i4"
+                      name="NIvel" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída Inalterada]"
+                  description="Linhas inalteradas"
+                  exclusionGroup="1"
+                  name="Saída Inalterada"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Nova Saída]"
+                  description="Novas linhas"
+                  exclusionGroup="1"
+                  name="Nova Saída"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Atributo Fixo]"
+                  description="Linhas com alterações em colunas marcadas com FixedAttribute"
+                  exclusionGroup="1"
+                  name="Saída de Atributo Fixo"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Atualizações de Atributo de Alteração]"
+                  description="Essas linhas contêm novas informações para as alterações da coluna ChangingAttribute (Type 1)"
+                  exclusionGroup="1"
+                  name="Saída de Atualizações de Atributo de Alteração"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Inserções de Atributo de Histórico]"
+                  description="O resultado de alterações de HistoricalAttribute (Type 2) nessas novas linhas"
+                  exclusionGroup="2"
+                  name="Saída de Inserções de Atributo de Histórico"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Atualizações de Membro Inferido]"
+                  description="Informações para atualizar a linha de dimensão inicial sem preenchimento"
+                  exclusionGroup="1"
+                  name="Saída de Atualizações de Membro Inferido"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\Insert Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Insert Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[Dim_Organizacional]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferencia do esq dir e nivel\Insert Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Cod_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Cod_Filho]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Desc_Filho]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Desc_Filho"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Desc_Filho]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Desc_Filho]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Cod_Pai]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Cod_Pai"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Cod_Pai]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Cod_Pai]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Esquerda]"
+                      cachedDataType="i4"
+                      cachedName="Esquerda"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Esquerda]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Esquerda]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Direita]"
+                      cachedDataType="i4"
+                      cachedName="Direita"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Direita]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Direita]" />
+                    <inputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].Columns[Nivel]"
+                      cachedDataType="i4"
+                      cachedName="Nivel"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[NIvel]"
+                      lineageId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados].Columns[Nivel]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Cod_Filho]"
+                      dataType="wstr"
+                      length="50"
+                      name="Cod_Filho" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Desc_Filho]"
+                      dataType="wstr"
+                      length="200"
+                      name="Desc_Filho" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Cod_Pai]"
+                      dataType="wstr"
+                      length="50"
+                      name="Cod_Pai" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Esquerda]"
+                      dataType="i4"
+                      name="Esquerda" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[Direita]"
+                      dataType="i4"
+                      name="Direita" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB].ExternalColumns[NIvel]"
+                      dataType="i4"
+                      name="NIvel" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\Insert Destination.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Insert Destination.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\Insert Destination.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\Insert Destination.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="leitura da tabela aux"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[TEMP_AUXTABELA]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  connectionManagerRefId="Package.ConnectionManagers[CONEXÃO COM DW_SUCOS]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[ID]"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ID]"
+                      name="ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[IDPAI]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[IDPAI]"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[IDPAI]"
+                      name="IDPAI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ESQ]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[ESQ]"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[ESQ]"
+                      name="ESQ"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[DIR]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[DIR]"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[DIR]"
+                      name="DIR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NIVEL]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[NIVEL]"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NIVEL]"
+                      name="NIVEL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NOME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[NOME]"
+                      length="200"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].Columns[NOME]"
+                      name="NOME"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[ID]"
+                      dataType="wstr"
+                      length="50"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[IDPAI]"
+                      dataType="wstr"
+                      length="50"
+                      name="IDPAI" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[ESQ]"
+                      dataType="i4"
+                      name="ESQ" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[DIR]"
+                      dataType="i4"
+                      name="DIR" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[NIVEL]"
+                      dataType="i4"
+                      name="NIVEL" />
+                    <externalMetadataColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB].ExternalColumns[NOME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="NOME" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ID]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ID]"
+                      name="ID" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[IDPAI]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[IDPAI]"
+                      name="IDPAI" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ESQ]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ESQ]"
+                      name="ESQ" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[DIR]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[DIR]"
+                      name="DIR" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[NIVEL]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[NIVEL]"
+                      name="NIVEL" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[NOME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[NOME]"
+                      name="NOME" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transferencia do esq dir e nivel.Paths[Nova Saída]"
+              endId="Package\Transferencia do esq dir e nivel\Insert Destination.Inputs[Entrada de Destino OLE DB]"
+              name="Nova Saída"
+              startId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Nova Saída]" />
+            <path
+              refId="Package\Transferencia do esq dir e nivel.Paths[Saída de Atualizações de Atributo de Alteração]"
+              endId="Package\Transferencia do esq dir e nivel\Comando OLE DB 1.Inputs[Entrada de Comando OLE DB]"
+              name="Saída de Atualizações de Atributo de Alteração"
+              startId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Atualizações de Atributo de Alteração]" />
+            <path
+              refId="Package\Transferencia do esq dir e nivel.Paths[Saída de Atualizações de Membro Inferido]"
+              endId="Package\Transferencia do esq dir e nivel\Comando OLE DB.Inputs[Entrada de Comando OLE DB]"
+              name="Saída de Atualizações de Membro Inferido"
+              startId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Outputs[Saída de Atualizações de Membro Inferido]" />
+            <path
+              refId="Package\Transferencia do esq dir e nivel.Paths[Saída de Conversão de Dados]"
+              endId="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta.Inputs[Entrada de Dimensão de Alteração Lenta]"
+              name="Saída de Conversão de Dados"
+              startId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Outputs[Saída de Conversão de Dados]" />
+            <path
+              refId="Package\Transferencia do esq dir e nivel.Paths[Saída de Origem OLE DB]"
+              endId="Package\Transferencia do esq dir e nivel\Conversão de Dados.Inputs[Entrada de Conversão de Dados]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Transferencia do esq dir e nivel\leitura da tabela aux.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -12013,6 +13256,22 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 5"
       DTS:To="Package\Criação da Dim Organizacional Tab 2 Nivel 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{58AA2A7B-5B1E-41CF-9DDF-69FF82E44C4A}"
+      DTS:From="Package\Criação da Dim Organizacional Tab 2 Nivel 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Execução da rotina de dir esquer e nivel" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{3E9DFDB7-94B5-4FA5-9701-9955CDA6E39E}"
+      DTS:From="Package\Execução da rotina de dir esquer e nivel"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Transferencia do esq dir e nivel" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -12025,30 +13284,50 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="191,42"
           Id="Package\Criação da Dim Cliente"
-          TopLeft="402,77" />
+          TopLeft="717.555555555556,12.5555555555556" />
         <NodeLayout
           Size="194,42"
           Id="Package\Criação da Dim Fabrica"
-          TopLeft="167,80" />
+          TopLeft="715.888888888889,78.8888888888889" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1"
+          TopLeft="19,288.222222222224" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2"
+          TopLeft="19,366.222222222224" />
         <NodeLayout
           Size="260,42"
           Id="Package\Criação da Dim Produto Nivel  Marca"
-          TopLeft="701,147" />
+          TopLeft="978.777777777778,139.222222222222" />
         <NodeLayout
           Size="293,42"
           Id="Package\Criação da Dim Produto Nivel  Produto"
-          TopLeft="682,223" />
+          TopLeft="959.777777777778,215.222222222222" />
         <NodeLayout
           Size="274,42"
           Id="Package\Criação da Dim Produto Nivel Categoria"
-          TopLeft="691,37" />
+          TopLeft="968.777777777778,29.2222222222222" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Criação Dim Organizacional Nivel 1"
+          TopLeft="36,20.2222222222222" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Criação Dim Organizacional Nivel 2"
+          TopLeft="32,105.222222222222" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Criação Dim Organizacional Nivel 3"
+          TopLeft="37,194.222222222223" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="829.5,79">
+          TopLeft="1107.27777777778,71.2222222222222">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -12070,7 +13349,7 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="829.75,189">
+          TopLeft="1107.52777777778,181.222222222222">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -12090,17 +13369,9 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="253,42"
-          Id="Package\Criação Dim Organizacional Nivel 1"
-          TopLeft="86,188" />
-        <NodeLayout
-          Size="253,42"
-          Id="Package\Criação Dim Organizacional Nivel 2"
-          TopLeft="82,273" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="210.5,230">
+          TopLeft="160.5,62.2222222222221">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -12120,13 +13391,9 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="253,42"
-          Id="Package\Criação Dim Organizacional Nivel 3"
-          TopLeft="87,362" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="211,315">
+          TopLeft="161,147.222222222223">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -12146,13 +13413,9 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="299,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1"
-          TopLeft="69,456" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="216,404">
+          TopLeft="166,236.222222222224">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -12172,36 +13435,72 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="299,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2"
-          TopLeft="463,478" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="368,477">
+          TopLeft="168.5,330.222222222224">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="95,22"
+              EndConnector="0,36"
               Start="0,0"
-              End="87.5,22">
+              End="0,28.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="43.5,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="43.5,0"
-                    Point2="47.5,0"
-                    Point3="47.5,4" />
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Execução da rotina de dir esquer e nivel"
+          TopLeft="38.8888888888889,454.444444444444" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="172.444444444444,408.222222222224">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.2222222222205"
+              Start="0,0"
+              End="0,38.7222222222205">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="47.5,18" />
-                  <mssgle:CubicBezierSegment
-                    Point1="47.5,18"
-                    Point2="47.5,22"
-                    Point3="51.5,22" />
+                    End="0,38.7222222222205" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Transferencia do esq dir e nivel"
+          TopLeft="84.4444444444445,541.111111111111" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="178.166666666667,496.444444444444">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.6666666666666"
+              Start="0,0"
+              End="0,37.1666666666666">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="87.5,22" />
+                    End="0,37.1666666666666" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12951,6 +14250,522 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Origem do Excel"
+          TopLeft="236,5.5" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Classificar 1"
+          TopLeft="246.5,107.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Origem do Excel]"
+          TopLeft="316,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Conversão de Dados 1"
+          TopLeft="220.5,209.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Classificar Saída]"
+          TopLeft="316,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Dimensão de Alteração Lenta 1"
+          TopLeft="199.5,311.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Conversão de Dados]"
+          TopLeft="316,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Insert Destination"
+          TopLeft="5.5,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Nova Saída]"
+          TopLeft="259.75,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-171.75,60"
+              Start="0,0"
+              End="-171.75,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4526166902405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4526166902405"
+                    Point2="0,20.4526166902405"
+                    Point3="-4,20.4526166902405" />
+                  <mssgle:LineSegment
+                    End="-167.75,20.4526166902405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-167.75,20.4526166902405"
+                    Point2="-171.75,20.4526166902405"
+                    Point3="-171.75,24.4526166902405" />
+                  <mssgle:LineSegment
+                    End="-171.75,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-110.868359375,25.4526166902405,49.98671875,10.3349609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Comando OLE DB"
+          TopLeft="231,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Atualizações de Membro Inferido]"
+          TopLeft="316,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-93.5976953125,20.12548828125,187.195390625,12.2490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Comando OLE DB 1"
+          TopLeft="461.5,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Atualizações de Atributo de Alteração]"
+          TopLeft="372.25,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="178.75,59.9999999999999"
+              Start="0,0"
+              End="178.75,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4526166902404" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4526166902404"
+                    Point2="0,20.4526166902404"
+                    Point3="4,20.4526166902404" />
+                  <mssgle:LineSegment
+                    End="174.75,20.4526166902404" />
+                  <mssgle:CubicBezierSegment
+                    Point1="174.75,20.4526166902404"
+                    Point2="178.75,20.4526166902404"
+                    Point3="178.75,24.4526166902404" />
+                  <mssgle:LineSegment
+                    End="178.75,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-13.9876953125,25.4526166902404,206.725390625,12.2490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Dimensão de Alteração Lenta 1">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{690A4E8F-1C4C-495C-9EC3-EEB880C1CB22}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_Organizacional]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Filho]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Cod_Filho&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Desc_Filho]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Desc_Filho&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB 1&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Origem do Excel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Origem do Excel"
+          TopLeft="236,5.5" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Classificar"
+          TopLeft="251,107.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Origem do Excel]"
+          TopLeft="316,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Conversão de Dados 1"
+          TopLeft="220.5,209.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Classificar Saída]"
+          TopLeft="316,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Dimensão de Alteração Lenta 1"
+          TopLeft="199.5,311.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Conversão de Dados]"
+          TopLeft="316,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Insert Destination"
+          TopLeft="5.5,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Nova Saída]"
+          TopLeft="259.75,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-171.75,60"
+              Start="0,0"
+              End="-171.75,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4526166902405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4526166902405"
+                    Point2="0,20.4526166902405"
+                    Point3="-4,20.4526166902405" />
+                  <mssgle:LineSegment
+                    End="-167.75,20.4526166902405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-167.75,20.4526166902405"
+                    Point2="-171.75,20.4526166902405"
+                    Point3="-171.75,24.4526166902405" />
+                  <mssgle:LineSegment
+                    End="-171.75,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-110.868359375,25.4526166902405,49.98671875,10.3349609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Comando OLE DB"
+          TopLeft="231,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Atualizações de Membro Inferido]"
+          TopLeft="316,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-93.5976953125,20.12548828125,187.195390625,12.2490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Comando OLE DB 1"
+          TopLeft="461.5,413.5" />
+        <EdgeLayout
+          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Atualizações de Atributo de Alteração]"
+          TopLeft="372.25,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="178.75,59.9999999999999"
+              Start="0,0"
+              End="178.75,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4526166902404" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4526166902404"
+                    Point2="0,20.4526166902404"
+                    Point3="4,20.4526166902404" />
+                  <mssgle:LineSegment
+                    End="174.75,20.4526166902404" />
+                  <mssgle:CubicBezierSegment
+                    Point1="174.75,20.4526166902404"
+                    Point2="178.75,20.4526166902404"
+                    Point3="178.75,24.4526166902404" />
+                  <mssgle:LineSegment
+                    End="178.75,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-13.9876953125,25.4526166902404,206.725390625,12.2490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Origem do Excel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Dimensão de Alteração Lenta 1">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{690A4E8F-1C4C-495C-9EC3-EEB880C1CB22}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_Organizacional]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Filho]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Cod_Filho&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Pai]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Cod_Pai&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Desc_Filho]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Desc_Filho&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB 1&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -14018,19 +15833,6 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Criação Dim Organizacional Nivel 1\Planilha Funcionarios Grupo 1">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Criação Dim Organizacional Nivel 1\Dimensão de Alteração Lenta">
     <Properties>
       <Property>
@@ -14071,6 +15873,19 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
   &lt;DateVariable /&gt;
   &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
 &lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Criação Dim Organizacional Nivel 1\Planilha Funcionarios Grupo 1">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -14597,21 +16412,21 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1">
+    design-time-name="Package\Transferencia do esq dir e nivel">
     <LayoutInfo>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="160,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Origem do Excel"
-          TopLeft="236,5.5" />
+          Size="178,42"
+          Id="Package\Transferencia do esq dir e nivel\leitura da tabela aux"
+          TopLeft="227,5.49999999999989" />
         <NodeLayout
-          Size="139,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Classificar 1"
-          TopLeft="246.5,107.5" />
+          Size="182,42"
+          Id="Package\Transferencia do esq dir e nivel\Conversão de Dados"
+          TopLeft="225,107.5" />
         <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Origem do Excel]"
-          TopLeft="316,47.5">
+          Id="Package\Transferencia do esq dir e nivel.Paths[Saída de Origem OLE DB]"
+          TopLeft="316,47.4999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -14632,11 +16447,11 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="191,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Conversão de Dados 1"
-          TopLeft="220.5,209.5" />
+          Size="224,42"
+          Id="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta"
+          TopLeft="204,209.5" />
         <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Classificar Saída]"
+          Id="Package\Transferencia do esq dir e nivel.Paths[Saída de Conversão de Dados]"
           TopLeft="316,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -14658,78 +16473,52 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="233,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Dimensão de Alteração Lenta 1"
-          TopLeft="199.5,311.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Conversão de Dados]"
-          TopLeft="316,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
           Size="165,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Insert Destination"
-          TopLeft="5.5,413.5" />
+          Id="Package\Transferencia do esq dir e nivel\Insert Destination"
+          TopLeft="5.50000000000006,311.5" />
         <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Nova Saída]"
-          TopLeft="259.75,353.5">
+          Id="Package\Transferencia do esq dir e nivel.Paths[Nova Saída]"
+          TopLeft="262,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-171.75,60"
+              EndConnector="-174,60"
               Start="0,0"
-              End="-171.75,52.5">
+              End="-174,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.4526166902405" />
+                    End="0,16.4705882352941" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,16.4526166902405"
-                    Point2="0,20.4526166902405"
-                    Point3="-4,20.4526166902405" />
+                    Point1="0,16.4705882352941"
+                    Point2="0,20.4705882352941"
+                    Point3="-4,20.4705882352941" />
                   <mssgle:LineSegment
-                    End="-167.75,20.4526166902405" />
+                    End="-170,20.4705882352941" />
                   <mssgle:CubicBezierSegment
-                    Point1="-167.75,20.4526166902405"
-                    Point2="-171.75,20.4526166902405"
-                    Point3="-171.75,24.4526166902405" />
+                    Point1="-170,20.4705882352941"
+                    Point2="-174,20.4705882352941"
+                    Point3="-174,24.4705882352941" />
                   <mssgle:LineSegment
-                    End="-171.75,52.5" />
+                    End="-174,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-110.868359375,25.4526166902405,49.98671875,10.3349609375"
+              BoundingBox="-111.993359375,25.4705882352941,49.98671875,10.3349609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
           Size="170,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Comando OLE DB"
-          TopLeft="231,413.5" />
+          Id="Package\Transferencia do esq dir e nivel\Comando OLE DB"
+          TopLeft="231,311.5" />
         <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Atualizações de Membro Inferido]"
-          TopLeft="316,353.5">
+          Id="Package\Transferencia do esq dir e nivel.Paths[Saída de Atualizações de Membro Inferido]"
+          TopLeft="316,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -14753,41 +16542,41 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
         </EdgeLayout>
         <NodeLayout
           Size="179,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Comando OLE DB 1"
-          TopLeft="461.5,413.5" />
+          Id="Package\Transferencia do esq dir e nivel\Comando OLE DB 1"
+          TopLeft="461.5,311.5" />
         <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 1.Paths[Saída de Atualizações de Atributo de Alteração]"
-          TopLeft="372.25,353.5">
+          Id="Package\Transferencia do esq dir e nivel.Paths[Saída de Atualizações de Atributo de Alteração]"
+          TopLeft="370,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="178.75,59.9999999999999"
+              EndConnector="181,60"
               Start="0,0"
-              End="178.75,52.4999999999999">
+              End="181,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.4526166902404" />
+                    End="0,16.4705882352941" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,16.4526166902404"
-                    Point2="0,20.4526166902404"
-                    Point3="4,20.4526166902404" />
+                    Point1="0,16.4705882352941"
+                    Point2="0,20.4705882352941"
+                    Point3="4,20.4705882352941" />
                   <mssgle:LineSegment
-                    End="174.75,20.4526166902404" />
+                    End="177,20.4705882352941" />
                   <mssgle:CubicBezierSegment
-                    Point1="174.75,20.4526166902404"
-                    Point2="178.75,20.4526166902404"
-                    Point3="178.75,24.4526166902404" />
+                    Point1="177,20.4705882352941"
+                    Point2="181,20.4705882352941"
+                    Point3="181,24.4705882352941" />
                   <mssgle:LineSegment
-                    End="178.75,52.4999999999999" />
+                    End="181,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-13.9876953125,25.4526166902404,206.725390625,12.2490234375"
+              BoundingBox="-12.8626953125,25.4705882352941,206.725390625,12.2490234375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -14795,7 +16584,7 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Origem do Excel">
+    design-time-name="Package\Transferencia do esq dir e nivel\leitura da tabela aux">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -14808,7 +16597,7 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 1\Dimensão de Alteração Lenta 1">
+    design-time-name="Package\Transferencia do esq dir e nivel\Dimensão de Alteração Lenta">
     <Properties>
       <Property>
         <Name>SCDMetadata</Name>
@@ -14819,275 +16608,38 @@ SELECT'003' AS CODIGO, 'Fábrica do Nordeste' AS DESCRITOR</property>
   &lt;TableName&gt;[dbo].[Dim_Organizacional]&lt;/TableName&gt;
   &lt;InputToColumnsCollection&gt;
     &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Filho]&lt;/IdentificationString&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Cod_Filho]&lt;/IdentificationString&gt;
       &lt;ColumnName&gt;Cod_Filho&lt;/ColumnName&gt;
       &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
       &lt;ChangeType&gt;None&lt;/ChangeType&gt;
     &lt;/InputColumnToDBColumn&gt;
     &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Desc_Filho]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Desc_Filho&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Comando OLE DB 1&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="160,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Origem do Excel"
-          TopLeft="236,5.5" />
-        <NodeLayout
-          Size="130,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Classificar"
-          TopLeft="251,107.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Origem do Excel]"
-          TopLeft="316,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="191,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Conversão de Dados 1"
-          TopLeft="220.5,209.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Classificar Saída]"
-          TopLeft="316,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="233,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Dimensão de Alteração Lenta 1"
-          TopLeft="199.5,311.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Conversão de Dados]"
-          TopLeft="316,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="165,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Insert Destination"
-          TopLeft="5.5,413.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Nova Saída]"
-          TopLeft="259.75,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-171.75,60"
-              Start="0,0"
-              End="-171.75,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.4526166902405" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.4526166902405"
-                    Point2="0,20.4526166902405"
-                    Point3="-4,20.4526166902405" />
-                  <mssgle:LineSegment
-                    End="-167.75,20.4526166902405" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-167.75,20.4526166902405"
-                    Point2="-171.75,20.4526166902405"
-                    Point3="-171.75,24.4526166902405" />
-                  <mssgle:LineSegment
-                    End="-171.75,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-110.868359375,25.4526166902405,49.98671875,10.3349609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="170,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Comando OLE DB"
-          TopLeft="231,413.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Atualizações de Membro Inferido]"
-          TopLeft="316,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-93.5976953125,20.12548828125,187.195390625,12.2490234375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="179,42"
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Comando OLE DB 1"
-          TopLeft="461.5,413.5" />
-        <EdgeLayout
-          Id="Package\Criação da Dim Organizacional Tab 2 Nivel 2.Paths[Saída de Atualizações de Atributo de Alteração]"
-          TopLeft="372.25,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="178.75,59.9999999999999"
-              Start="0,0"
-              End="178.75,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.4526166902404" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.4526166902404"
-                    Point2="0,20.4526166902404"
-                    Point3="4,20.4526166902404" />
-                  <mssgle:LineSegment
-                    End="174.75,20.4526166902404" />
-                  <mssgle:CubicBezierSegment
-                    Point1="174.75,20.4526166902404"
-                    Point2="178.75,20.4526166902404"
-                    Point3="178.75,24.4526166902404" />
-                  <mssgle:LineSegment
-                    End="178.75,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-13.9876953125,25.4526166902404,206.725390625,12.2490234375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Origem do Excel">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Criação da Dim Organizacional Tab 2 Nivel 2\Dimensão de Alteração Lenta 1">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{690A4E8F-1C4C-495C-9EC3-EEB880C1CB22}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_Organizacional]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Filho]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Cod_Filho&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Cod_Pai]&lt;/IdentificationString&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Cod_Pai]&lt;/IdentificationString&gt;
       &lt;ColumnName&gt;Cod_Pai&lt;/ColumnName&gt;
       &lt;KeyType&gt;None&lt;/KeyType&gt;
       &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
     &lt;/InputColumnToDBColumn&gt;
     &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Conversão de Dados 1.Saídas[Saída de Conversão de Dados].Colunas[Desc_Filho]&lt;/IdentificationString&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Desc_Filho]&lt;/IdentificationString&gt;
       &lt;ColumnName&gt;Desc_Filho&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Direita]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Direita&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Esquerda]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Esquerda&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Conversão de Dados.Saídas[Saída de Conversão de Dados].Colunas[Nivel]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;NIvel&lt;/ColumnName&gt;
       &lt;KeyType&gt;None&lt;/KeyType&gt;
       &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
     &lt;/InputColumnToDBColumn&gt;
