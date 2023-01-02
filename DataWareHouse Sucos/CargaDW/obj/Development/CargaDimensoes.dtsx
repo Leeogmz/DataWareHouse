@@ -11,8 +11,8 @@
   DTS:LocaleID="1046"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="32"
-  DTS:VersionGUID="{1A1D298D-961E-4BF5-BBBF-5C95814B0BE0}">
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{00C8E296-5DA1-4754-AC61-1B520E1FF174}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,7 +25,7 @@
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=MONKEY;Initial Catalog=DW_SUCOS;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=MONKEY;Initial Catalog=DW_SUCOS;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{690A4E8F-1C4C-495C-9EC3-EEB880C1CB22}CONEXÃO COM DW_SUCOS;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -37,7 +37,7 @@
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="0"
           DTS:ConnectRetryInterval="0"
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\CADASTRO DE CLIENTES.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\leona\Documents\estudos\Arquivos\Arquivos - Aula 6\CADASTRO DE CLIENTES.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -99,7 +99,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ESTADO ABREVIAÇÃO"
-              DTS:DTSID="{0248AF6D-6FC8-403F-BD0D-4447444099CC}"
+              DTS:DTSID="{D05FD238-C81B-40C0-B036-0300429A9CBA}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -108,7 +108,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ESTADO"
-              DTS:DTSID="{7F45839A-8B1F-42DA-ADE0-6FE014DB622A}"
+              DTS:DTSID="{D3395255-AF11-433A-A12D-96DDEC1A1D0B}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -117,7 +117,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="REGIAO"
-              DTS:DTSID="{4F948DD0-B280-45F8-B63C-E00A635144BD}"
+              DTS:DTSID="{D242C810-3D70-4021-B74C-F3402688C863}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -146,7 +146,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="MARCA"
-              DTS:DTSID="{E2125756-927D-4E39-AA27-B03B620FA940}"
+              DTS:DTSID="{D8A84958-EEB4-4167-BFC6-A4F64AEC3C47}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -155,10 +155,22 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="CATEGORIA"
-              DTS:DTSID="{A36B654B-2CF2-434A-9EE9-E6D555B9AA12}"
+              DTS:DTSID="{4E261704-9C0E-44D2-8D6B-75F591876B73}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MONKEY.DW_SUCOS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DDD2BB56-35EC-4E5E-84CB-36D97E542E28}"
+      DTS:ObjectName="MONKEY.DW_SUCOS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=MONKEY;Initial Catalog=DW_SUCOS;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package-{DDD2BB56-35EC-4E5E-84CB-36D97E542E28}MONKEY.DW_SUCOS;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -15588,7 +15600,7 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
         <NodeLayout
           Size="253,42"
           Id="Package\Criação Dim Organizacional Nivel 1"
-          TopLeft="1660.88888888889,115.888888888889" />
+          TopLeft="1669.88888888889,119.888888888889" />
         <NodeLayout
           Size="253,42"
           Id="Package\Criação Dim Organizacional Nivel 2"
@@ -15604,7 +15616,7 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
         <NodeLayout
           Size="275,42"
           Id="Package\Execução da rotina de dir esquer e nivel"
-          TopLeft="1663.77777777778,550.111111111112" />
+          TopLeft="1724.77777777778,562.111111111112" />
         <NodeLayout
           Size="191,42"
           Id="Package\Transferencia do esq dir e nivel"
@@ -15655,18 +15667,30 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="1785.38888888889,157.888888888889">
+          TopLeft="1796.38888888889,161.888888888889">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,43.0000000000002"
+              EndConnector="-13,39"
               Start="0,0"
-              End="0,35.5000000000002">
+              End="-13,31.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.5000000000002" />
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="-4,19.5" />
+                  <mssgle:LineSegment
+                    End="-9,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9,19.5"
+                    Point2="-13,19.5"
+                    Point3="-13,23.5" />
+                  <mssgle:LineSegment
+                    End="-13,31.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -15743,18 +15767,30 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="1797.33333333333,503.888888888891">
+          TopLeft="1793.38888888889,503.888888888891">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,46.2222222222206"
+              EndConnector="68.8888888888901,58.222222222221"
               Start="0,0"
-              End="0,38.7222222222206">
+              End="68.8888888888901,50.722222222221">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,38.7222222222206" />
+                    End="0,25.1111111111105" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.1111111111105"
+                    Point2="0,29.1111111111105"
+                    Point3="4,29.1111111111105" />
+                  <mssgle:LineSegment
+                    End="64.8888888888901,29.1111111111105" />
+                  <mssgle:CubicBezierSegment
+                    Point1="64.8888888888901,29.1111111111105"
+                    Point2="68.8888888888901,29.1111111111105"
+                    Point3="68.8888888888901,33.1111111111105" />
+                  <mssgle:LineSegment
+                    End="68.8888888888901,50.722222222221" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -15765,18 +15801,30 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="1803.05555555555,592.111111111112">
+          TopLeft="1862.27777777778,604.111111111112">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,44.6666666666666"
+              EndConnector="-57.44444444445,32.6666666666661"
               Start="0,0"
-              End="0,37.1666666666666">
+              End="-57.44444444445,25.1666666666661">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37.1666666666666" />
+                    End="0,12.333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.333333333333"
+                    Point2="0,16.333333333333"
+                    Point3="-4,16.333333333333" />
+                  <mssgle:LineSegment
+                    End="-53.44444444445,16.333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-53.44444444445,16.333333333333"
+                    Point2="-57.44444444445,16.333333333333"
+                    Point3="-57.44444444445,20.333333333333" />
+                  <mssgle:LineSegment
+                    End="-57.44444444445,25.1666666666661" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -18797,7 +18845,9 @@ SELECT * FROM @DIMDATE order by Cod_Dia</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
