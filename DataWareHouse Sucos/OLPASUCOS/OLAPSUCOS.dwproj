@@ -15,6 +15,10 @@
       <Name>Cliente.dim</Name>
       <FullPath>Cliente.dim</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Produto.dim</Name>
+      <FullPath>Produto.dim</FullPath>
+    </ProjectItem>
   </Dimensions>
   <DataSources>
     <ProjectItem>
