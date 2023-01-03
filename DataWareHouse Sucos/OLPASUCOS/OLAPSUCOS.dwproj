@@ -11,6 +11,10 @@
       <Name>Fabrica.dim</Name>
       <FullPath>Fabrica.dim</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Cliente.dim</Name>
+      <FullPath>Cliente.dim</FullPath>
+    </ProjectItem>
   </Dimensions>
   <DataSources>
     <ProjectItem>

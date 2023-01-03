@@ -14,6 +14,9 @@
       <Dimension>
         <ID>Fabrica</ID>
       </Dimension>
+      <Dimension>
+        <ID>Cliente</ID>
+      </Dimension>
     </Dimensions>
     <DataSourceImpersonationInfo>
       <ImpersonationMode xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">Default</ImpersonationMode>
