@@ -68,7 +68,7 @@
       </ObjectSnapshot>
       <ObjectSnapshot>
         <Type>Microsoft.AnalysisServices.Cube</Type>
-        <TimeStamp>DHSQY/FExndZnioSRZvbu5p/Mf0=04/01/2023 19:04:0804/01/2023 19:04:080SEuOxdSAN2WsfYVIdXTQq7XsPE=04/01/2023 19:04:0904/01/2023 19:04:08</TimeStamp>
+        <TimeStamp>UCUlNUwT+azdO6jePOIzs1ps4tM=04/01/2023 19:13:3504/01/2023 19:04:080SEuOxdSAN2WsfYVIdXTQq7XsPE=04/01/2023 19:04:0904/01/2023 19:04:08</TimeStamp>
         <ID>
           <String>VENDAS</String>
         </ID>
@@ -85,5 +85,5 @@
   </Snapshot>
   <AssemblyLocations />
   <ProcessingComplete>true</ProcessingComplete>
-  <LastDeployed>2023-01-04T22:05:09.143333Z</LastDeployed>
+  <LastDeployed>2023-01-04T22:14:06.826667Z</LastDeployed>
 </DeploymentSnapshot>
