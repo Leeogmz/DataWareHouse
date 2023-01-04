@@ -26,7 +26,7 @@
       </ObjectSnapshot>
       <ObjectSnapshot>
         <Type>Microsoft.AnalysisServices.DataSourceView</Type>
-        <TimeStamp>IlFhfZPpEHuB6rNAYQyELsvW7cU=03/01/2023 15:32:0602/01/2023 19:33:49</TimeStamp>
+        <TimeStamp>IlFhfZPpEHuB6rNAYQyELsvW7cU=03/01/2023 15:56:0402/01/2023 19:33:49</TimeStamp>
         <ID>
           <String>DW SUCOS</String>
         </ID>
@@ -52,6 +52,27 @@
           <String>Produto</String>
         </ID>
       </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>cCsf2r9WCwtnDasCug+pgC+EjUs=03/01/2023 16:04:2203/01/2023 15:58:42</TimeStamp>
+        <ID>
+          <String>Organizacional</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>49CmC8qmZreS3Wakmwgw+c/aAtI=03/01/2023 16:37:4303/01/2023 16:08:02</TimeStamp>
+        <ID>
+          <String>Tempo</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>DHSQY/FExndZnioSRZvbu5p/Mf0=04/01/2023 19:04:0804/01/2023 19:04:080SEuOxdSAN2WsfYVIdXTQq7XsPE=04/01/2023 19:04:0904/01/2023 19:04:08</TimeStamp>
+        <ID>
+          <String>VENDAS</String>
+        </ID>
+      </ObjectSnapshot>
     </ObjectSnapshots>
     <DatabaseSnapshot>
       <Type>Microsoft.AnalysisServices.Database</Type>
@@ -64,5 +85,5 @@
   </Snapshot>
   <AssemblyLocations />
   <ProcessingComplete>true</ProcessingComplete>
-  <LastDeployed>2023-01-03T18:36:50Z</LastDeployed>
+  <LastDeployed>2023-01-04T22:05:09.143333Z</LastDeployed>
 </DeploymentSnapshot>
