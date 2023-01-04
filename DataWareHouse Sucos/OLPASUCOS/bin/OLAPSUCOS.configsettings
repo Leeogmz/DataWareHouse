@@ -57,6 +57,35 @@
           </MeasureGroup>
         </MeasureGroups>
       </Cube>
+      <Cube>
+        <ID>CUSTOS</ID>
+        <MeasureGroups>
+          <MeasureGroup>
+            <ID>Fato 003</ID>
+            <Partitions>
+              <Partition>
+                <ID>Fato 003</ID>
+              </Partition>
+            </Partitions>
+          </MeasureGroup>
+          <MeasureGroup>
+            <ID>Fato 001</ID>
+            <Partitions>
+              <Partition>
+                <ID>Fato 001</ID>
+              </Partition>
+            </Partitions>
+          </MeasureGroup>
+          <MeasureGroup>
+            <ID>Fato 005</ID>
+            <Partitions>
+              <Partition>
+                <ID>Fato 005</ID>
+              </Partition>
+            </Partitions>
+          </MeasureGroup>
+        </MeasureGroups>
+      </Cube>
     </Cubes>
     <DataSourceImpersonationInfo>
       <ImpersonationMode xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">Default</ImpersonationMode>

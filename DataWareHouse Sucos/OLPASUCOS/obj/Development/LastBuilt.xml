@@ -1,4 +1,54 @@
 ﻿<Infos>
+  <Item name="CUSTOS.cube">
+    <Time>638084587996748857</Time>
+    <Hash length="20">
+      <b>35</b>
+      <b>53</b>
+      <b>248</b>
+      <b>209</b>
+      <b>92</b>
+      <b>92</b>
+      <b>104</b>
+      <b>246</b>
+      <b>236</b>
+      <b>73</b>
+      <b>232</b>
+      <b>138</b>
+      <b>224</b>
+      <b>93</b>
+      <b>231</b>
+      <b>57</b>
+      <b>4</b>
+      <b>121</b>
+      <b>242</b>
+      <b>170</b>
+    </Hash>
+  </Item>
+  <Item name="CUSTOS.partitions">
+    <Time>638084580408842296</Time>
+    <Hash length="20">
+      <b>200</b>
+      <b>120</b>
+      <b>37</b>
+      <b>193</b>
+      <b>182</b>
+      <b>19</b>
+      <b>6</b>
+      <b>60</b>
+      <b>104</b>
+      <b>154</b>
+      <b>182</b>
+      <b>164</b>
+      <b>178</b>
+      <b>119</b>
+      <b>162</b>
+      <b>150</b>
+      <b>214</b>
+      <b>50</b>
+      <b>155</b>
+      <b>2</b>
+    </Hash>
+  </Item>
   <Item name="VENDAS.partitions">
     <Time>638084558490092252</Time>
     <Hash length="20">
