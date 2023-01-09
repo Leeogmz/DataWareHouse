@@ -26,7 +26,7 @@
       </ObjectSnapshot>
       <ObjectSnapshot>
         <Type>Microsoft.AnalysisServices.DataSourceView</Type>
-        <TimeStamp>IlFhfZPpEHuB6rNAYQyELsvW7cU=03/01/2023 15:56:0402/01/2023 19:33:49</TimeStamp>
+        <TimeStamp>sFVnokv5gUXJspbvku1l76+PgtQ=09/01/2023 17:43:5202/01/2023 19:33:49</TimeStamp>
         <ID>
           <String>DW SUCOS</String>
         </ID>
@@ -87,6 +87,13 @@
           <String>DW SUCOS</String>
         </ID>
       </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>UisyiTRg7z2k5ivPJeIYwhqvtAs=09/01/2023 17:44:2809/01/2023 17:44:21jbvklIvu8fhHFLnJfFEj8RlBRU0=09/01/2023 17:44:2109/01/2023 17:44:21</TimeStamp>
+        <ID>
+          <String>COMPLETO</String>
+        </ID>
+      </ObjectSnapshot>
     </ObjectSnapshots>
     <DatabaseSnapshot>
       <Type>Microsoft.AnalysisServices.Database</Type>
@@ -99,5 +106,5 @@
   </Snapshot>
   <AssemblyLocations />
   <ProcessingComplete>true</ProcessingComplete>
-  <LastDeployed>2023-01-05T21:52:59.153333Z</LastDeployed>
+  <LastDeployed>2023-01-09T20:44:48.863333Z</LastDeployed>
 </DeploymentSnapshot>
